@@ -1,7 +1,7 @@
 package = "kong-oidc"
 version = "1.2.1-1"
 source = {
-    url = "git://github.com/revomatico/kong-oidc",
+    url = "git://github.com/nagra-insight/kong-oidc",
     tag = "master",
     dir = "kong-oidc"
 }
