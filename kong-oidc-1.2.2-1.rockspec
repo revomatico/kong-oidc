@@ -1,5 +1,5 @@
 package = "kong-oidc"
-version = "1.2.1-1"
+version = "1.2.2-1"
 source = {
     url = "git://github.com/nagra-insight/kong-oidc",
     tag = "master",
@@ -22,7 +22,7 @@ description = {
     license = "Apache 2.0"
 }
 dependencies = {
-    "lua-resty-openidc ~> 1.7.2-1"
+    "lua-resty-openidc ~> 1.7.4-1"
 }
 build = {
     type = "builtin",

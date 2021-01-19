@@ -13,10 +13,15 @@ function TestIntrospect:tearDown()
 end
 
 function TestIntrospect:test_access_token_exists()
+  package.loaded["resty.openidc"] = nil
+  self.module_resty = {
+    openidc = {
+      introspect = function(...) return { sub = "sub" }, nil end,
+    }
+  }
+  package.preload["resty.openidc"] = function() return self.module_resty.openidc end
+
   ngx.req.get_headers = function() return {Authorization = "Bearer xxx"} end
-  local dict = {}
-  function dict:get(key) return key end
-  _G.ngx.shared = {introspection = dict }
 
   ngx.encode_base64 = function(x)
     return "eyJzdWIiOiJzdWIifQ=="
@@ -33,7 +38,14 @@ function TestIntrospect:test_access_token_exists()
 end
 
 function TestIntrospect:test_no_authorization_header()
-  package.loaded["resty.openidc"].authenticate = function(...) return {}, nil end
+  package.loaded["resty.openidc"] = nil
+  self.module_resty = {
+    openidc = {
+      authenticate = function(...) return {}, nil end
+    }
+  }
+  package.preload["resty.openidc"] = function() return self.module_resty.openidc end
+
   ngx.req.get_headers = function() return {} end
 
   local headers = {}

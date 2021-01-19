@@ -22,10 +22,10 @@ end
 
 function TestHandler:test_authenticate_ok_no_userinfo()
   self.module_resty.openidc.authenticate = function(opts)
-    return {}, false
+    return { id_token = { sub = "sub"}}, false
   end
 
-  self.handler:access({})
+  self.handler:access({disable_id_token_header = "yes"})
   lu.assertTrue(self:log_contains("calling authenticate"))
 end
 
@@ -50,7 +50,7 @@ end
 
 function TestHandler:test_authenticate_ok_with_no_accesstoken()
   self.module_resty.openidc.authenticate = function(opts)
-    return {}, true
+    return {id_token = {sub = "sub"}}, true
   end
   
   local headers = {}
@@ -58,14 +58,14 @@ function TestHandler:test_authenticate_ok_with_no_accesstoken()
     headers[h] = v
   end
 
-  self.handler:access({})
+  self.handler:access({disable_id_token_header = "yes"})
   lu.assertTrue(self:log_contains("calling authenticate"))
   lu.assertNil(headers['X-Access-Token'])
 end
 
 function TestHandler:test_authenticate_ok_with_accesstoken()
   self.module_resty.openidc.authenticate = function(opts)
-    return {access_token = "ACCESS_TOKEN"}, true
+    return {id_token = { sub = "sub" } , access_token = "ACCESS_TOKEN"}, true
   end
   
   local headers = {}
@@ -73,7 +73,7 @@ function TestHandler:test_authenticate_ok_with_accesstoken()
     headers[h] = v
   end
 
-  self.handler:access({access_token_header_name = 'X-Access-Token'})
+  self.handler:access({access_token_header_name = 'X-Access-Token', disable_id_token_header = "yes"})
   lu.assertTrue(self:log_contains("calling authenticate"))
   lu.assertEquals(headers['X-Access-Token'], "ACCESS_TOKEN")
 end
@@ -114,7 +114,7 @@ end
 
 function TestHandler:test_authenticate_nok_no_recovery()
   self.module_resty.openidc.authenticate = function(opts)
-    return {}, true
+    return nil, true
   end
 
   self.handler:access({})
@@ -124,7 +124,7 @@ end
 function TestHandler:test_authenticate_nok_deny()
   self.module_resty.openidc.authenticate = function(opts)
     if opts.unauth_action == "deny" then
-		return {}, "unauthorized request"
+		return nil, "unauthorized request"
 	end
 	return {}, true
   end
@@ -135,7 +135,7 @@ end
 
 function TestHandler:test_authenticate_nok_with_recovery()
   self.module_resty.openidc.authenticate = function(opts)
-    return {}, true
+    return nil, true
   end
 
   self.handler:access({recovery_page_path = "x"})

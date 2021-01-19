@@ -77,5 +77,16 @@ function TestUtils:testOptions()
 
 end
 
+function TestUtils:testCommonItem()
+  lu.assertFalse(utils.has_common_item(nil, "aud1"))
+  lu.assertTrue(utils.has_common_item("aud1", "aud1"))
+  lu.assertFalse(utils.has_common_item("aud1", "aud2"))
+  lu.assertFalse(utils.has_common_item({"aud1", "aud2"}, "aud3"))
+  lu.assertTrue(utils.has_common_item({"aud1", "aud2"}, "aud2"))
+  lu.assertFalse(utils.has_common_item("aud1", {"aud2", "aud3"}))
+  lu.assertTrue(utils.has_common_item("aud2", {"aud2", "aud3"}))
+  lu.assertTrue(utils.has_common_item({"aud2","aud3","aud4"}, {"aud4", "aud5"}))
+  lu.assertFalse(utils.has_common_item({"aud2","aud3","aud4"}, {"aud5", "aud6"}))
+end
 
 lu.run()
