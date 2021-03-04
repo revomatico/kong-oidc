@@ -58,6 +58,7 @@ function M.get_options(config, ngx)
     scope = config.scope,
     response_type = config.response_type,
     ssl_verify = config.ssl_verify,
+    use_jwks = config.use_jwks,
     token_endpoint_auth_method = config.token_endpoint_auth_method,
     recovery_page_path = config.recovery_page_path,
     filters = parseFilters((config.filters or "") .. "," .. (config.ignore_auth_filters or "")),
@@ -155,7 +156,7 @@ function M.setCredentials(user)
 end
 
 function M.injectUser(user, headerName)
-  ngx.log(ngx.DEBUG, "Injecting " .. headerName) 
+  ngx.log(ngx.DEBUG, "Injecting " .. headerName)
   local userinfo = cjson.encode(user)
   ngx.req.set_header(headerName, ngx.encode_base64(userinfo))
 end

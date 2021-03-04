@@ -36,7 +36,7 @@ function TestHandler:test_authenticate_ok_with_userinfo()
   ngx.encode_base64 = function(x)
     return "eyJzdWIiOiJzdWIifQ=="
   end
-  
+
   local headers = {}
   ngx.req.set_header = function(h, v)
     headers[h] = v
@@ -52,7 +52,7 @@ function TestHandler:test_authenticate_ok_with_no_accesstoken()
   self.module_resty.openidc.authenticate = function(opts)
     return {id_token = {sub = "sub"}}, true
   end
-  
+
   local headers = {}
   ngx.req.set_header = function(h, v)
     headers[h] = v
@@ -67,7 +67,7 @@ function TestHandler:test_authenticate_ok_with_accesstoken()
   self.module_resty.openidc.authenticate = function(opts)
     return {id_token = { sub = "sub" } , access_token = "ACCESS_TOKEN"}, true
   end
-  
+
   local headers = {}
   ngx.req.set_header = function(h, v)
     headers[h] = v
@@ -82,7 +82,7 @@ function TestHandler:test_authenticate_ok_with_no_idtoken()
   self.module_resty.openidc.authenticate = function(opts)
     return {}, true
   end
-  
+
   local headers = {}
   ngx.req.set_header = function(h, v)
     headers[h] = v
@@ -101,7 +101,7 @@ function TestHandler:test_authenticate_ok_with_idtoken()
   ngx.encode_base64 = function(x)
     return "eyJzdWIiOiJzdWIifQ=="
   end
-  
+
   local headers = {}
   ngx.req.set_header = function(h, v)
     headers[h] = v
@@ -205,6 +205,23 @@ function TestHandler:test_bearer_only_with_bad_token()
   lu.assertFalse(self:log_contains("introspect succeeded"))
 end
 
+function TestHandler:test_introspect_bearer_token_and_property_mapping()
+  self.module_resty.openidc.bearer_jwt_verify = function(opts)
+    return {foo = "bar"}, false
+  end
+  ngx.req.get_headers = function() return {Authorization = "Bearer xxx"} end
+
+  ngx.encode_base64 = function(x) return "x" end
+
+  local headers = {}
+  ngx.req.set_header = function(h, v)
+    headers[h] = v
+  end
+
+  self.handler:access({introspection_endpoint = "x", bearer_only = "yes", use_jwks = "yes", mappings = {'foo:X-Foo', 'incorrect', 'not:present'}})
+  lu.assertEquals(headers["X-Foo"], 'bar')
+  lu.assertTrue(self:log_contains("not present on token"))
+  lu.assertTrue(self:log_contains("Ignoring incorrect configuration"))
+end
+
 lu.run()
-
-

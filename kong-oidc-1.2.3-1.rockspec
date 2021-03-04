@@ -1,5 +1,5 @@
 package = "kong-oidc"
-version = "1.2.2-1"
+version = "1.2.3-1"
 source = {
     url = "git://github.com/nagra-insight/kong-oidc",
     tag = "master",

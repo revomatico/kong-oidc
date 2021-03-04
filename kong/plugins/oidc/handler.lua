@@ -115,7 +115,12 @@ end
 
 function introspect(oidcConfig)
   if utils.has_bearer_access_token() or oidcConfig.bearer_only == "yes" then
-    local res, err = require("resty.openidc").introspect(oidcConfig)
+    local res, err
+    if oidcConfig.use_jwks == "yes" then
+      res, err = require("resty.openidc").bearer_jwt_verify(oidcConfig)
+    else
+      res, err = require("resty.openidc").introspect(oidcConfig)
+    end
     if err then
       if oidcConfig.bearer_only == "yes" then
         ngx.header["WWW-Authenticate"] = 'Bearer realm="' .. oidcConfig.realm .. '",error="' .. err .. '"'
