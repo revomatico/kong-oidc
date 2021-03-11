@@ -33,15 +33,10 @@ function M.get_redirect_uri(ngx)
     ngx.log(ngx.DEBUG, "tackle_slash path=" .. path)
     local args = ngx.req.get_uri_args()
     if args and args.code then
-      ngx.log(ngx.DEBUG, "args.code=" .. args.code)
+      ngx.log(ngx.DEBUG, "tackle_slash args.code=" .. args.code)
       return path
-    elseif path == "/" then
-      return "/cb"
-    elseif path:sub(-1) == "/" then
-      return path:sub(1, -2)
     else
-      return path .. "/"
-      -- return "/cb?post_login=" .. path
+      return "/cb"
     end
   end
 
