@@ -58,6 +58,7 @@ function M.get_options(config, ngx)
     redirect_uri = config.redirect_uri or M.get_redirect_uri(ngx),
     scope = config.scope,
     validate_scope = config.validate_scope,
+    use_nonce = config.use_nonce == "yes",
     response_type = config.response_type,
     ssl_verify = config.ssl_verify,
     use_jwks = config.use_jwks,
