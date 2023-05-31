@@ -93,6 +93,13 @@ return {
             }
           },
           {
+            use_nonce = {
+              type = "string",
+              required = true,
+              default = "no"
+            }
+          },
+          {
             response_type = {
               type = "string",
               required = true,
