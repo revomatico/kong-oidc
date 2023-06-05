@@ -143,9 +143,22 @@ function M.injectSession(session)
   ngx.log(ngx.DEBUG, "Injecting session" )
   kong.service.request.set_header("oidcsessiontest", "test")
   if (session) then
-    local sessionStr = cjson.encode(session)
-    kong.service.request.set_header("oidcsession", ngx.encode_base64(sessionStr))
+    kong.service.request.set_header("oidcsession", table_to_string(session))
   end
+end
+
+function table_to_string(t)
+    local str = "{"
+    for k, v in pairs(t) do
+        if type(v) == "table" then
+            str = str .. table_to_string(v)
+        else
+            str = str .. tostring(v)
+        end
+        str = str .. ", "
+    end
+    str = str .. "}"
+    return str
 end
 
 function M.injectIDToken(idToken, headerName)
