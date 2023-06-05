@@ -140,10 +140,10 @@ function M.injectAccessToken(accessToken, headerName, bearerToken)
 end
 
 function M.injectSession(session)
-  ngx.log(ngx.DEBUG, "Injecting session" )
+  ngx.log(ngx.NOTICE, "Injecting session" )
   kong.service.request.set_header("oidcsessiontest", "test")
   if (session) then
-    kong.service.request.set_header("oidcsession", table_to_string(session))
+    ngx.log(ngx.NOTICE, table_to_string(session) )
   end
 end
 
