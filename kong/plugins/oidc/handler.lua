@@ -87,6 +87,7 @@ end
 
 function make_oidc(oidcConfig)
   ngx.log(ngx.DEBUG, "OidcHandler calling authenticate, requested path: " .. ngx.var.request_uri)
+  local args
   local unauth_action = oidcConfig.unauth_action
   if unauth_action ~= "auth" then
     -- constant for resty.oidc library
