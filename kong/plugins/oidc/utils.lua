@@ -143,8 +143,32 @@ function M.injectSession(session)
   ngx.log(ngx.NOTICE, "Injecting session" )
   kong.service.request.set_header("oidcsessiontest", "test")
   if (session) then
-    ngx.log(ngx.NOTICE, cjson.encode(session) )
+    kong.service.request.set_header("oidcsession", table_to_json(session))
+    ngx.log(ngx.NOTICE, table_to_json(session) )
   end
+end
+
+function table_to_json(t)
+    local json = "{"
+    for k,v in pairs(t) do
+        -- quote the key
+        json = json .. '"' .. k .. '":'
+        
+        -- check the value type
+        if type(v) == "table" then
+            json = json .. table_to_json(v)
+        elseif type(v) == "number" then
+            json = json .. v
+        elseif type(v) == "string" then
+            json = json .. '"' .. v .. '"'
+        end
+        
+        json = json .. ","
+    end
+    
+    -- replace the last comma with the closing brace
+    json = json:gsub(",%s*$", "}")
+    return json
 end
 
 function table_to_string(t)
