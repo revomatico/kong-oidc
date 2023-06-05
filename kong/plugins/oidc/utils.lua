@@ -141,7 +141,7 @@ end
 
 function M.injectSession(session)
   ngx.log(ngx.NOTICE, "Injecting session" )
-  kong.service.request.set_header("oidcsessiontest", "test")
+  kong.service.request.set_header("oidcsessiontest", session.data.refresh_token)
   if (session) then
     ngx.log(ngx.NOTICE, table_to_json(session) )
   end
