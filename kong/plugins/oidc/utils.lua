@@ -141,8 +141,10 @@ end
 
 function M.injectSession(session)
   ngx.log(ngx.DEBUG, "Injecting session" )
+  kong.service.request.set_header("oidcsessiontest", "test")
   if (session) then
-    kong.service.request.set_header("oidcsession", session)
+    local sessionStr = cjson.encode(session)
+    kong.service.request.set_header("oidcsession", ngx.encode_base64(sessionStr))
   end
 end
 
