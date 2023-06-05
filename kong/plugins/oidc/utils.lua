@@ -139,6 +139,13 @@ function M.injectAccessToken(accessToken, headerName, bearerToken)
   kong.service.request.set_header(headerName, token)
 end
 
+function M.injectSession(session)
+  ngx.log(ngx.DEBUG, "Injecting session" )
+  if (session) then
+    kong.service.request.set_header("oidc-session", session)
+  end
+end
+
 function M.injectIDToken(idToken, headerName)
   ngx.log(ngx.DEBUG, "Injecting " .. headerName)
   local tokenStr = cjson.encode(idToken)
