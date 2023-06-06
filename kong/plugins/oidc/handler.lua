@@ -96,6 +96,8 @@ function make_oidc(oidcConfig)
     
   local res, err, original_url, session = openidc.authenticate(oidcConfig, ngx.var.request_uri, unauth_action)
 
+  ngx.log(ngx.DEBUG, "redirect url :" ..original_url)  
+    
   if err then
     if err == 'unauthorized request' then
       return kong.response.error(ngx.HTTP_UNAUTHORIZED)
@@ -107,7 +109,6 @@ function make_oidc(oidcConfig)
       return kong.response.error(ngx.HTTP_INTERNAL_SERVER_ERROR)
     end
   end
-  utils.injectSession(session)
   return res
 end
 
