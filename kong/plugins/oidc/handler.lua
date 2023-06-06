@@ -87,18 +87,12 @@ end
 
 function make_oidc(oidcConfig)
   ngx.log(ngx.DEBUG, "OidcHandler calling authenticate, requested path: " .. ngx.var.request_uri)
-  local args
   local unauth_action = oidcConfig.unauth_action
   if unauth_action ~= "auth" then
     -- constant for resty.oidc library
     unauth_action = "deny"
   end
-  if oidcConfig.response_mode and oidcConfig.response_mode == "form_post" then
-    ngx.req.read_body()
-    args = ngx.req.get_post_args()
-  else
-    args = ngx.req.get_uri_args()
-  end  
+    
   local res, err, original_url, session = require("resty.openidc").authenticate(oidcConfig, ngx.var.request_uri, unauth_action)
 
   if err then
@@ -112,7 +106,6 @@ function make_oidc(oidcConfig)
       return kong.response.error(ngx.HTTP_INTERNAL_SERVER_ERROR)
     end
   end
-  kong.service.request.set_header("authcode", args.code)
   utils.injectSession(session)
   return res
 end
