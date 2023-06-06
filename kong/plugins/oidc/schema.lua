@@ -126,7 +126,7 @@ return {
               required = true,
               default = "no"
             }
-          }
+          },
           {
             token_endpoint_auth_method = {
               type = "string",
