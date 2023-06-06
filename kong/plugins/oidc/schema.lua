@@ -121,6 +121,13 @@ return {
             }
           },
           {
+            use_pkce  = {
+              type = "string",
+              required = true,
+              default = "no"
+            }
+          }
+          {
             token_endpoint_auth_method = {
               type = "string",
               required = true,
