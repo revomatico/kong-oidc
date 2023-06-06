@@ -85,7 +85,7 @@ function M.get_options(config, ngx)
     bearer_jwt_auth_signing_algs = config.bearer_jwt_auth_signing_algs,
     header_names = config.header_names or {},
     header_claims = config.header_claims or {},
-    use_pkce = true
+    use_pkce = config.use_pkce == "yes"
   }
 end
 
