@@ -1134,7 +1134,7 @@ local function openidc_authorization_response(opts, session)
   if err then
     return nil, err, session.data.original_url, session
   end
-
+  log(DEBUG, "2.aaccess_token: ", json.access_token)
   local id_token, err = openidc_load_and_validate_jwt_id_token(opts, json.id_token, session);
   if err then
     return nil, err, session.data.original_url, session
@@ -1496,6 +1496,7 @@ function openidc.authenticate(opts, target_url, unauth_action, session_or_opts)
 
     -- refresh access_token if necessary
     access_token, err = openidc_access_token(opts, session, try_to_renew)
+    log(DEBUG, "1.aaccess_token: ", access_token)
     if err then
       log(ERROR, "lost access token:" .. err)
       err = nil
@@ -1561,6 +1562,7 @@ function openidc.authenticate(opts, target_url, unauth_action, session_or_opts)
   end
 
   -- return the id_token to the caller Lua script for access control purposes
+     log(DEBUG, "result token=", access_token)
   return
   {
     id_token = session.data.id_token,
