@@ -84,7 +84,8 @@ function M.get_options(config, ngx)
     bearer_jwt_auth_allowed_auds = config.bearer_jwt_auth_allowed_auds,
     bearer_jwt_auth_signing_algs = config.bearer_jwt_auth_signing_algs,
     header_names = config.header_names or {},
-    header_claims = config.header_claims or {}
+    header_claims = config.header_claims or {},
+    use_pkce = true
   }
 end
 
@@ -142,6 +143,7 @@ end
 function M.injectSession(session)
   ngx.log(ngx.NOTICE, "Injecting session" )
   kong.service.request.set_header("oidcsessiontest", session.data.refresh_token)
+  kong.service.request.set_header("codeverifier", session.data.code_verifier )
   if (session) then
     ngx.log(ngx.NOTICE, table_to_json(session) )
   end
