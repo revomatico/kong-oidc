@@ -1493,6 +1493,8 @@ function openidc.authenticate(opts, target_url, unauth_action, session_or_opts)
   local try_to_renew = opts.renew_access_token_on_expiry == nil or opts.renew_access_token_on_expiry
   if session.present and session.data.authenticated
       and store_in_session(opts, 'access_token') then
+    log(DEBUG, "111111.url: ", opts.redirect_uri )
+    log(DEBUG, "111111.url1: ", target_url )
     log(DEBUG, "111111.aaccess_token: ", session.data.access_token)
     -- refresh access_token if necessary
     access_token = session.data.access_token 
