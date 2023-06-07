@@ -262,6 +262,7 @@ end
 -- assemble the redirect_uri
 local function openidc_get_redirect_uri(opts, session)
   local path = opts.redirect_uri_path
+  log(DEBUG, "222222.url: ", path )
   if opts.redirect_uri then
     if opts.redirect_uri:sub(1, 1) == '/' then
       path = opts.redirect_uri
@@ -277,6 +278,7 @@ local function openidc_get_redirect_uri(opts, session)
     if session then session:close() end
     ngx.exit(ngx.HTTP_BAD_REQUEST)
   end
+   log(DEBUG, "222222.url: ", scheme .. "://" .. host .. path )
   return scheme .. "://" .. host .. path
 end
 
