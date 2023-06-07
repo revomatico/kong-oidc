@@ -1182,6 +1182,7 @@ local function openidc_authorization_response(opts, session)
         + openidc_access_token_expires_in(opts, json.expires_in)
     if json.refresh_token ~= nil then
       session.data.refresh_token = json.refresh_token
+       log(DEBUG, "44444444ref: ", json.refresh_token)
     end
   end
 
