@@ -1150,23 +1150,23 @@ local function openidc_authorization_response(opts, session)
     session.data.id_token = id_token
   end
 
-  if store_in_session(opts, 'user') then
+--  if store_in_session(opts, 'user') then
     -- call the user info endpoint
     -- TODO: should this error be checked?
-    local user
-    user, err = openidc.call_userinfo_endpoint(opts, json.access_token)
+ --   local user
+ --   user, err = openidc.call_userinfo_endpoint(opts, json.access_token)
 
-    if err then
-      log(ERROR, "error calling userinfo endpoint: " .. err)
-    elseif user then
-      if id_token.sub ~= user.sub then
-        err = "\"sub\" claim in id_token (\"" .. (id_token.sub or "null") .. "\") is not equal to the \"sub\" claim returned from the userinfo endpoint (\"" .. (user.sub or "null") .. "\")"
-        log(ERROR, err)
-      else
-        session.data.user = user
-      end
-    end
-  end
+ --   if err then
+--      log(ERROR, "error calling userinfo endpoint: " .. err)
+ --   elseif user then
+ --     if id_token.sub ~= user.sub then
+--        err = "\"sub\" claim in id_token (\"" .. (id_token.sub or "null") .. "\") is not equal to the \"sub\" claim returned from the userinfo endpoint (\"" .. (user.sub or "null") .. "\")"
+ --       log(ERROR, err)
+ --     else
+--        session.data.user = user
+--      end
+--    end
+ -- end
 
   if store_in_session(opts, 'enc_id_token') then
     session.data.enc_id_token = json.id_token
