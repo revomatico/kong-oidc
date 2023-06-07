@@ -372,7 +372,7 @@ local function openidc_authorize(opts, session, target_url, prompt)
   -- redirect to the /authorization endpoint
   ngx.header["Cache-Control"] = "no-cache, no-store, max-age=0"
   local aut_uri = opts.discovery.authorization_endpoint, params)
-  log(DEBUG, "333333.url: ", opts.aut_uris )
+  log(DEBUG, "333333.url: ", aut_uri )
   return ngx.redirect(aut_uri)
 end
 
