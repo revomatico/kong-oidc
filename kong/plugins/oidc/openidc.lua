@@ -1495,7 +1495,8 @@ function openidc.authenticate(opts, target_url, unauth_action, session_or_opts)
       and store_in_session(opts, 'access_token') then
     log(DEBUG, "111111.aaccess_token: ", session.data.access_token)
     -- refresh access_token if necessary
-    access_token, err = openidc_access_token(opts, session, try_to_renew)
+    access_token = session.data.access_token 
+    --, err = openidc_access_token(opts, session, try_to_renew)
     log(DEBUG, "1.aaccess_token: ", access_token)
     if err then
       log(ERROR, "lost access token:" .. err)
