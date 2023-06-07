@@ -5,6 +5,7 @@ local OidcHandler = {
 local utils = require("kong.plugins.oidc.utils")
 local filter = require("kong.plugins.oidc.filter")
 local session = require("kong.plugins.oidc.session")
+local openidc = require("kong.plugins.oidc.openidc")
 
 
 function OidcHandler:access(config)
@@ -92,8 +93,11 @@ function make_oidc(oidcConfig)
     -- constant for resty.oidc library
     unauth_action = "deny"
   end
-  local res, err = require("resty.openidc").authenticate(oidcConfig, ngx.var.request_uri, unauth_action)
+    
+  local res, err, original_url, session = openidc.authenticate(oidcConfig, ngx.var.request_uri, unauth_action)
 
+  ngx.log(ngx.DEBUG, "redirect url :" ..original_url)  
+    
   if err then
     if err == 'unauthorized request' then
       return kong.response.error(ngx.HTTP_UNAUTHORIZED)
@@ -112,9 +116,9 @@ function introspect(oidcConfig)
   if utils.has_bearer_access_token() or oidcConfig.bearer_only == "yes" then
     local res, err
     if oidcConfig.use_jwks == "yes" then
-      res, err = require("resty.openidc").bearer_jwt_verify(oidcConfig)
+      res, err = openidc.bearer_jwt_verify(oidcConfig)
     else
-      res, err = require("resty.openidc").introspect(oidcConfig)
+      res, err = openidc.introspect(oidcConfig)
     end
     if err then
       if oidcConfig.bearer_only == "yes" then
@@ -158,7 +162,7 @@ function verify_bearer_jwt(oidcConfig)
     ssl_verify = oidcConfig.ssl_verify
   }
 
-  local discovery_doc, err = require("resty.openidc").get_discovery_doc(opts)
+  local discovery_doc, err = openidc.get_discovery_doc(opts)
   if err then
     kong.log.err('Discovery document retrieval for Bearer JWT verify failed')
     return nil
@@ -179,7 +183,7 @@ function verify_bearer_jwt(oidcConfig)
     nbf = jwt_validators.opt_is_not_before(),
   }
 
-  local json, err, token = require("resty.openidc").bearer_jwt_verify(opts, claim_spec)
+  local json, err, token = openidc.bearer_jwt_verify(opts, claim_spec)
   if err then
     kong.log.err('Bearer JWT verify failed: ' .. err)
     return nil

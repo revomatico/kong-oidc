@@ -1,7 +1,7 @@
 package = "kong-oidc"
 version = "1.3.1-1"
 source = {
-    url = "git://github.com/revomatico/kong-oidc",
+    url = "git://github.com/mustafaaozcan/kong-oidc",
     tag = "master",
     dir = "kong-oidc"
 }
@@ -31,6 +31,7 @@ build = {
     ["kong.plugins.oidc.handler"] = "kong/plugins/oidc/handler.lua",
     ["kong.plugins.oidc.schema"] = "kong/plugins/oidc/schema.lua",
     ["kong.plugins.oidc.session"] = "kong/plugins/oidc/session.lua",
-    ["kong.plugins.oidc.utils"] = "kong/plugins/oidc/utils.lua"
+    ["kong.plugins.oidc.utils"] = "kong/plugins/oidc/utils.lua",
+    ["kong.plugins.oidc.openidc"] = "kong/plugins/oidc/openidc.lua"
     }
 }

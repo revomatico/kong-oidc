@@ -58,6 +58,7 @@ function M.get_options(config, ngx)
     redirect_uri = config.redirect_uri or M.get_redirect_uri(ngx),
     scope = config.scope,
     validate_scope = config.validate_scope,
+    use_nonce = config.use_nonce == "yes",
     response_type = config.response_type,
     ssl_verify = config.ssl_verify,
     use_jwks = config.use_jwks,
@@ -83,7 +84,8 @@ function M.get_options(config, ngx)
     bearer_jwt_auth_allowed_auds = config.bearer_jwt_auth_allowed_auds,
     bearer_jwt_auth_signing_algs = config.bearer_jwt_auth_signing_algs,
     header_names = config.header_names or {},
-    header_claims = config.header_claims or {}
+    header_claims = config.header_claims or {},
+    use_pkce = config.use_pkce == "yes"
   }
 end
 
@@ -136,6 +138,20 @@ function M.injectAccessToken(accessToken, headerName, bearerToken)
     token = formatAsBearerToken(token)
   end
   kong.service.request.set_header(headerName, token)
+end
+
+function table_to_string(t)
+    local str = "{"
+    for k, v in pairs(t) do
+        if type(v) == "table" then
+            str = str .. table_to_string(v)
+        else
+            str = str .. tostring(v)
+        end
+        str = str .. ", "
+    end
+    str = str .. "}"
+    return str
 end
 
 function M.injectIDToken(idToken, headerName)

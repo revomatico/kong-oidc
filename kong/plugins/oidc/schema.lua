@@ -93,6 +93,13 @@ return {
             }
           },
           {
+            use_nonce = {
+              type = "string",
+              required = true,
+              default = "no"
+            }
+          },
+          {
             response_type = {
               type = "string",
               required = true,
@@ -108,6 +115,13 @@ return {
           },
           {
             use_jwks = {
+              type = "string",
+              required = true,
+              default = "no"
+            }
+          },
+          {
+            use_pkce  = {
               type = "string",
               required = true,
               default = "no"
