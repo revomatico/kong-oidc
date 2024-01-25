@@ -87,7 +87,8 @@ function M.get_options(config, ngx)
     proxy_opts = {
       http_proxy  = config.http_proxy,
       https_proxy = config.https_proxy
-    }
+    },
+    use_pkce = config.use_pkce
   }
 end
 
@@ -175,7 +176,7 @@ function M.injectHeaders(header_names, header_claims, sources)
   for i = 1, #header_names do
     local header, claim
     header = header_names[i]
-    claim = header_claims[i] 
+    claim = header_claims[i]
     kong.service.request.clear_header(header)
     for j = 1, #sources do
       local source, claim_value
