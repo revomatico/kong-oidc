@@ -305,6 +305,13 @@ return {
               type = "string",
               required = false
             }
+          },
+            {
+            use_pkce = {
+              type = "boolean",
+              required = true,
+              default = false,
+            }
           }
         }
       }
