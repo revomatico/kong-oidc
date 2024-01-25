@@ -22,6 +22,7 @@ describe("oidc plugin", function()
         client_id = "afcc3a0a-aaa4-4bac-b86a-a7bd77259dd3",
         client_secret = "81de73f0-3a0e-451a-88ee-e540811a049c",
         discovery = "http://mockbin.org/bin/bd08be64-1820-4e1a-aca2-b4a38cd07961/"
+        use_pkce = true
       }
     })
 
