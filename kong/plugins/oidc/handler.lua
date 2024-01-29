@@ -95,6 +95,7 @@ function make_oidc(oidcConfig)
   local res, err = require("resty.openidc").authenticate(oidcConfig, ngx.var.request_uri, unauth_action)
 
   if err then
+    kong.log.err("Authentication failed: " .. err)
     if err == 'unauthorized request' then
       return kong.response.error(ngx.HTTP_UNAUTHORIZED)
     else
@@ -117,6 +118,7 @@ function introspect(oidcConfig)
       res, err = require("resty.openidc").introspect(oidcConfig)
     end
     if err then
+      kong.log.err("Introspect failed: " .. err)
       if oidcConfig.bearer_only == "yes" then
         ngx.header["WWW-Authenticate"] = 'Bearer realm="' .. oidcConfig.realm .. '",error="' .. err .. '"'
         return kong.response.error(ngx.HTTP_UNAUTHORIZED)
