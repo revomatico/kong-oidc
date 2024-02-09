@@ -18,13 +18,15 @@ return {
           {
             client_id = {
               type = "string",
-              required = true
+              required = true,
+              referenceable = true
             }
           },
           {
             client_secret = {
               type = "string",
-              required = true
+              required = true,
+              referenceable = true
             }
           },
           {
@@ -123,7 +125,8 @@ return {
           {
             session_secret = {
               type = "string",
-              required = false
+              required = false,
+              referenceable = true
             }
           },
           {
