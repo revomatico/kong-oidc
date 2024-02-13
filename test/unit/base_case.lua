@@ -1,6 +1,6 @@
 package.path = package.path .. ";test/lib/?.lua;;" -- kong & co
 
-local Object = require "kong.vendor.classic"
+local Object = require "test.unit.classic"
 local BaseCase = Object:extend()
 
 

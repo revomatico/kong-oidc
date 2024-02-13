@@ -11,7 +11,7 @@ function TestHandler:setUp()
     return self.module_resty.openidc
   end
 
-  self.handler = require("kong.plugins.oidc.handler")()
+  self.handler = require("kong.plugins.oidc.handler")
 end
 
 function TestHandler:tearDown()
@@ -27,7 +27,7 @@ function TestHandler:test_bearer_jwt_auth_success()
   end
 
   self.module_resty.openidc.bearer_jwt_verify = function(opts)
-    token = { 
+    token = {
         iss = "https://oidc",
         sub = "sub111",
         aud = "aud222",

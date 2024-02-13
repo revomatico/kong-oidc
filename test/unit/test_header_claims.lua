@@ -10,7 +10,7 @@ function TestHandler:setUp()
     return self.module_resty.openidc
   end
 
-  self.handler = require("kong.plugins.oidc.handler")()
+  self.handler = require("kong.plugins.oidc.handler")
 end
 
 function TestHandler:tearDown()

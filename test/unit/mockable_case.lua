@@ -7,7 +7,13 @@ function MockableCase:setUp()
   self.logs = {}
   self.mocked_ngx = {
     DEBUG = "debug",
+    INFO = "info",
+    NOTICE = "notice",
+    WARN = "warn",
     ERR = "error",
+    CRIT = "crit",
+    ALERT = "alert",
+    EMERG = "emerg",
     HTTP_UNAUTHORIZED = 401,
     HTTP_FORBIDDEN = 403,
     HTTP_INTERNAL_SERVER_ERROR = 500,

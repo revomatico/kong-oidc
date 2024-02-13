@@ -1,5 +1,4 @@
 local cjson = require("cjson")
-local constants = require "kong.constants"
 
 local M = {}
 
@@ -97,6 +96,7 @@ end
 -- Copyright 2016-2022 Kong Inc. Licensed under the Apache License, Version 2.0
 -- https://github.com/Kong/kong/blob/3.0.0/LICENSE
 local function set_consumer(consumer, credential)
+  local constants = require("kong.constants")
   kong.client.authenticate(consumer, credential)
 
   local set_header = kong.service.request.set_header
@@ -175,7 +175,7 @@ function M.injectHeaders(header_names, header_claims, sources)
   for i = 1, #header_names do
     local header, claim
     header = header_names[i]
-    claim = header_claims[i] 
+    claim = header_claims[i]
     kong.service.request.clear_header(header)
     for j = 1, #sources do
       local source, claim_value

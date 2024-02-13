@@ -14,7 +14,7 @@ RUN luarocks install lua-cjson
 RUN luarocks install luaossl OPENSSL_DIR=/usr/local/kong CRYPTO_DIR=/usr/local/kong
 
 # Change openidc version when version in rockspec changes
-RUN luarocks install lua-resty-openidc 1.7.5-1
+RUN luarocks install lua-resty-openidc 1.7.6-3
 
 WORKDIR /usr/local/kong-oidc
 
