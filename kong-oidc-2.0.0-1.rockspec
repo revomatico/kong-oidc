@@ -1,7 +1,7 @@
 package = "kong-oidc"
-version = "1.4.0-1"
+version = "2.0.0-1"
 source = {
-    url = "git://github.com/revomatico/kong-oidc",
+    url = "git://github.com/CADSCombustibleLemons/kong-oidc",
     tag = "master",
     dir = "kong-oidc"
 }
@@ -18,7 +18,7 @@ description = {
 
         It can be used as a reverse proxy terminating OAuth/OpenID Connect in front of an origin server so that the origin server/services can be protected with the relevant standards without implementing those on the server itself.
     ]],
-    homepage = "https://github.com/nokia/kong-oidc",
+    homepage = "https://github.com/CADSCombustibleLemons/kong-oidc",
     license = "Apache 2.0"
 }
 dependencies = {
@@ -31,6 +31,7 @@ build = {
     ["kong.plugins.oidc.handler"] = "kong/plugins/oidc/handler.lua",
     ["kong.plugins.oidc.schema"] = "kong/plugins/oidc/schema.lua",
     ["kong.plugins.oidc.session"] = "kong/plugins/oidc/session.lua",
-    ["kong.plugins.oidc.utils"] = "kong/plugins/oidc/utils.lua"
+    ["kong.plugins.oidc.utils"] = "kong/plugins/oidc/utils.lua",
+    ["kong.plugins.oidc.consumers"] = "kong/plugins/oidc/consumers.lua"
     }
 }
